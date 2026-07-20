@@ -1,0 +1,42 @@
+﻿<Window x:Class="Labelman8.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Приложение для печати" 
+        Height="350" Width="650"
+        WindowStartupLocation="CenterScreen">
+
+	<Grid Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+			<Button x:Name="btnExcel" 
+                    Content="📂 Загрузить Excel" 
+                    Width="160" Height="40" 
+                    Margin="0,0,10,0"
+                    Click="BtnExcel_Click"/>
+
+			<Button x:Name="btnDxf" 
+                    Content="📐 Загрузить DXF" 
+                    Width="160" Height="40" 
+                    Margin="0,0,10,0"
+                    Click="BtnDxf_Click"/>
+
+			<Button x:Name="btnPrint" 
+                    Content="🖨️ Печать" 
+                    Width="160" Height="40"
+                    Click="BtnPrint_Click"/>
+		</StackPanel>
+
+		<TextBox x:Name="txtStatus" 
+                 Grid.Row="1"
+                 FontFamily="Consolas" 
+                 FontSize="10"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"
+                 IsReadOnly="True"
+                 AcceptsReturn="True"/>
+	</Grid>
+</Window>
