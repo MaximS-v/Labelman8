@@ -160,6 +160,7 @@ namespace Labelman8.Modules
 
     /// <summary>
     /// Читает Excel-файл и возвращает только значение из указанной ячейки
+    /// Пока нигде не используется
     /// </summary>
     public string ReadCellValue(string filePath, string cellAddress)
     {
