@@ -1,6 +1,7 @@
-﻿using System;
-using System.Windows;
+﻿using Labelman8.Modules;
 using Microsoft.Win32;
+using System;
+using System.Windows;
 
 namespace Labelman8
 {
@@ -20,8 +21,23 @@ namespace Labelman8
       if (openFileDialog.ShowDialog() == true)
       {
         string filePath = openFileDialog.FileName;
-        txtStatus.Text = $"✅ Выбран файл:\n{filePath}\n\n📌 Здесь будет чтение данных из Excel...";
-        MessageBox.Show($"Выбран файл:\n{filePath}", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+        txtStatus.Text = $"📂 Загрузка файла:\n{filePath}\n\n";
+
+        try
+        {
+          var reader = new ExcelReader();
+          var data = reader.ReadExcelFile(filePath, maxRows: 0);
+          txtStatus.Text += data.ToText(maxRows: 20, maxCols: 10);
+
+          MessageBox.Show("Данные из Excel успешно загружены!", "Успех",
+                          MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+          txtStatus.Text += $"❌ Ошибка при чтении файла:\n{ex.Message}";
+          MessageBox.Show($"Ошибка при чтении файла:\n{ex.Message}", "Ошибка",
+                          MessageBoxButton.OK, MessageBoxImage.Error);
+        }
       }
     }
 
