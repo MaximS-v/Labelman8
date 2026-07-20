@@ -14,8 +14,8 @@ namespace Labelman8
     private void BtnExcel_Click(object sender, RoutedEventArgs e)
     {
       OpenFileDialog openFileDialog = new OpenFileDialog();
-      openFileDialog.Filter = "Excel files (*.xlsx;*.xls)|*.xlsx;*.xls|All files (*.*)|*.*";
-      openFileDialog.Title = "Выберите файл Excel";
+      openFileDialog.Filter = "Excel files (*.xlsm)|*.xlsm";
+      openFileDialog.Title = "Выберите файл Excel (.xlsm)";
 
       if (openFileDialog.ShowDialog() == true)
       {
