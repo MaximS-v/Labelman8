@@ -18,12 +18,6 @@
                     Margin="0,0,10,0"
                     Click="BtnExcel_Click"/>
 
-			<Button x:Name="btnDxf" 
-                    Content="📐 Загрузить DXF" 
-                    Width="160" Height="40" 
-                    Margin="0,0,10,0"
-                    Click="BtnDxf_Click"/>
-
 			<Button x:Name="btnPrint" 
                     Content="🖨️ Печать" 
                     Width="160" Height="40"
