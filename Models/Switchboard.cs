@@ -2,7 +2,7 @@
 {
   public class Switchboard
   {
-    public string SerialNumber { get; set; }
+    public string serialNumber { get; set; }
     public string Name { get; set; }
     public double In { get; set; }
     public double Fn { get; set; }
