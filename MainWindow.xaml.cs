@@ -1,12 +1,17 @@
-﻿using Labelman8.Modules;
+﻿using Labelman8.Models;
+using Labelman8.Modules;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace Labelman8
 {
   public partial class MainWindow : Window
   {
+    // === Хранилище данных ===
+    private List<Switchboard> switchboardsData = new List<Switchboard>();
+
     public MainWindow()
     {
       InitializeComponent();
@@ -16,7 +21,7 @@ namespace Labelman8
     {
       OpenFileDialog openFileDialog = new OpenFileDialog();
       openFileDialog.Filter = "Excel files (*.xlsm)|*.xlsm";
-      openFileDialog.Title = "Выберите файл Excel (.xlsm)";
+      openFileDialog.Title = "Выберите файл Excel со сводной спецификацией (.xlsm)";
 
       if (openFileDialog.ShowDialog() == true)
       {
@@ -26,10 +31,9 @@ namespace Labelman8
         try
         {
           var reader = new ExcelReader();
-          // var data = reader.ReadExcelFile(filePath, maxRows: 0);
-          // txtStatus.Text += data.ToText(maxRows: 20, maxCols: 10);
-
-          MessageBox.Show("Данные из Excel успешно загружены!", "Успех",
+          // Читаем данные в модель Switchboard
+          switchboardsData = reader.ReadSwitchboards(filePath);
+          MessageBox.Show($"Сводная спецификация \n{filePath}\nзагружена", "Успех",
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch (Exception ex)
