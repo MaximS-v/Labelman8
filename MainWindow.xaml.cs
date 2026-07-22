@@ -32,7 +32,7 @@ namespace Labelman8
         {
           var reader = new ExcelReader();
           // Читаем данные в модель Switchboard
-          switchboardsData = reader.ReadSwitchboards(filePath, "Сводная ");
+          switchboardsData = reader.ReadSwitchboards(filePath, AppSettings.ExcelSheetPrefix);
           MessageBox.Show($"Сводная спецификация \n{filePath}\nзагружена", "Успех",
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
