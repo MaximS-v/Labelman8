@@ -44,5 +44,6 @@ namespace Labelman8
         // Разделяем по '|' и удаляем пустые элементы
         return value.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
       }
+    }
   }
 }

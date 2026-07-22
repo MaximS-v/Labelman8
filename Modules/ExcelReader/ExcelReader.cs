@@ -27,16 +27,15 @@ namespace Labelman8.Modules
         {
           throw new Exception($"Лист с префиксом '{sheetNamePrefix}' не найден.");
         }
-          
+
+        // === Ключевые слова берём из настроек ===
+        string[] headerKeywords = AppSettings.HeaderKeywords;
+
+        int headerRowIndex = FindHeaderRow(worksheet, headerKeywords);
+        if (headerRowIndex == -1) return switchboards;
       }
 
-      // === Ключевые слова берём из настроек ===
-      string[] headerKeywords = AppSettings.HeaderKeywords;
-
-      int headerRowIndex = FindHeaderRow(worksheet, headerKeywords);
-
-      if (headerRowIndex == -1)
-        return switchboards;
+      
 
       return switchboards;
     }
@@ -80,7 +79,7 @@ namespace Labelman8.Modules
         bool allKewordsFound = true;
         foreach (var keyword in headerKeywords)
         {
-          if (!rowText.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+          if (rowText.IndexOf(keyword, StringComparison.OrdinalIgnoreCase) == -1)
           {
             allKewordsFound = false;
             break;
