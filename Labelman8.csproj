@@ -123,6 +123,7 @@
   <ItemGroup>
     <Compile Include="Models\Switchboard.cs" />
     <Compile Include="Modules\AppSettings.cs" />
+    <Compile Include="Modules\ExcelReader\ColumnMappingAttribute.cs" />
     <Compile Include="Modules\ExcelReader\ExcelReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
