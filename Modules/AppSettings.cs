@@ -20,30 +20,5 @@ namespace Labelman8
         return !string.IsNullOrWhiteSpace(value) ? value : "Сводная"; // значение по умолчанию
       }
     }
-
-    /// <summary>
-    /// Список ключевых слов для поиска строки заголовка
-    /// </summary>
-    public static string[] HeaderKeywords
-    {
-      get
-      {
-        string value = ConfigurationManager.AppSettings["HeaderKeyword"];
-        if (string.IsNullOrWhiteSpace(value))
-        {
-          return new string[]
-          {
-            "Зав. номер",
-            "Наименование",
-            "Кол-во",
-            "In",
-            "Um"
-          };
-        }
-
-        // Разделяем по '|' и удаляем пустые элементы
-        return value.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-      }
-    }
   }
 }

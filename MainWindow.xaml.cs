@@ -10,7 +10,7 @@ namespace Labelman8
   public partial class MainWindow : Window
   {
     // === Хранилище данных ===
-    private List<Switchboard> switchboardsData = new List<Switchboard>();
+    private List<SwitchboardSpecItem> switchboardsData = new List<SwitchboardSpecItem>();
 
     public MainWindow()
     {
@@ -32,7 +32,7 @@ namespace Labelman8
         {
           var reader = new ExcelReader();
           // Читаем данные в модель Switchboard
-          switchboardsData = reader.ReadSwitchboards(filePath, AppSettings.ExcelSheetPrefix);
+          switchboardsData = reader.ReadSpecItems(filePath, AppSettings.ExcelSheetPrefix);
           MessageBox.Show($"Сводная спецификация \n{filePath}\nзагружена", "Успех",
                           MessageBoxButton.OK, MessageBoxImage.Information);
         }
