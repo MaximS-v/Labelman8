@@ -15,7 +15,7 @@
 		<!-- Верхняя панель с кнопками -->
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
 			<Button x:Name="btnExcel" 
-                    Content="📂 Загрузить файл *.xlsm со сводной спецификацией" 
+                    Content="📂 Добавить файл *.xlsm со сводной спецификацией" 
                     Width="320" Height="40" 
                     Margin="0,0,10,0"
                     Click="BtnExcel_Click"/>

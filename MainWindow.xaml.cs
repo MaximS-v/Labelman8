@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Linq;
 
 namespace Labelman8
 {
@@ -62,8 +61,8 @@ namespace Labelman8
           var reader = new ExcelReader();
 					var data = reader.ReadSpecItems(filePath, AppSettings.ExcelSheetPrefix);
 
-					// Очищаем старые данные
-					specItems.Clear();
+					// НЕ Очищаем старые данные
+					// specItems.Clear();
 
 					// Добавляем новые данные
 					foreach (var item in data)
@@ -71,7 +70,7 @@ namespace Labelman8
 						specItems.Add(item);
 					}
 
-					txtStatus.Text = $"✅ Загружено записей: {specItems.Count}";
+					txtStatus.Text = $"✅ Добавлено записей: {data.Count}, всего: {specItems.Count}";
 				}
         catch (Exception ex)
         {
