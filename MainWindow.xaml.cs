@@ -96,10 +96,7 @@ namespace Labelman8
 
       try
       {
-        // Очищаем предыдущие подготовленные данные
         preparedItems.Clear();
-
-        // Генерируем готовые щиты из спецификации
         var generator = new SwitchboardGenerator();
         var result = generator.GenerateFromSpec(specItems.ToList());
 
@@ -110,8 +107,10 @@ namespace Labelman8
 
         txtStatus.Text = $"✅ Подготовлено щитов: {preparedItems.Count}";
 
-        // Показываем результат в отдельном окне (или в этом же гриде)
-        ShowPreparedDataWindow();
+        // Открываем окно предпросмотра
+        var previewWindow = new PrintPreviewWindow(preparedItems.ToList());
+        previewWindow.Owner = this;
+        previewWindow.ShowDialog();
       }
       catch (Exception ex)
       {
