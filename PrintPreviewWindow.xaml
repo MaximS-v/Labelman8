@@ -13,7 +13,6 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
-		<!-- Панель навигации -->
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
 			<Button x:Name="btnPrev" Content="◀ Предыдущая" Width="120" Height="30" Margin="5" Click="BtnPrev_Click"/>
 			<TextBlock x:Name="txtPageInfo" Text="Страница 1 из 1" VerticalAlignment="Center" Margin="15,0" FontSize="14"/>
@@ -22,7 +21,6 @@
 			<Button x:Name="btnClose" Content="✖ Закрыть" Width="120" Height="30" Margin="5" Click="BtnClose_Click"/>
 		</StackPanel>
 
-		<!-- Область отображения страницы -->
 		<ScrollViewer Grid.Row="1" 
                       HorizontalScrollBarVisibility="Auto" 
                       VerticalScrollBarVisibility="Auto"
@@ -34,7 +32,6 @@
 			</Border>
 		</ScrollViewer>
 
-		<!-- Статус -->
 		<StatusBar Grid.Row="2">
 			<StatusBarItem>
 				<TextBlock x:Name="txtStatus" Text="Всего элементов: 0" />
