@@ -15,7 +15,10 @@ namespace Labelman8
 		// === Коллекция для привязки к DataGrid ===
 		private ObservableCollection<SwitchboardSpecItem> specItems = new ObservableCollection<SwitchboardSpecItem>();
 
-		public MainWindow()
+		// === Коллекция для печати ===
+    private ObservableCollection<Switchboard> preparedItems = new ObservableCollection<Switchboard>();
+
+    public MainWindow()
     {
       InitializeComponent();
 
@@ -79,6 +82,73 @@ namespace Labelman8
 													MessageBoxButton.OK, MessageBoxImage.Error);
 				}
       }
+    }
+
+    // === Обработчик: Подготовка печати ===
+    private void BtnPreparePrint_Click(object sender, RoutedEventArgs e)
+    {
+      if (specItems.Count == 0)
+      {
+        MessageBox.Show("Сначала загрузите данные из Excel!", "Информация",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+        return;
+      }
+
+      try
+      {
+        // Очищаем предыдущие подготовленные данные
+        preparedItems.Clear();
+
+        // Генерируем готовые щиты из спецификации
+        var generator = new SwitchboardGenerator();
+        var result = generator.GenerateFromSpec(specItems.ToList());
+
+        foreach (var item in result)
+        {
+          preparedItems.Add(item);
+        }
+
+        txtStatus.Text = $"✅ Подготовлено щитов: {preparedItems.Count}";
+
+        // Показываем результат в отдельном окне (или в этом же гриде)
+        ShowPreparedDataWindow();
+      }
+      catch (Exception ex)
+      {
+        txtStatus.Text = $"❌ Ошибка подготовки: {ex.Message}";
+        MessageBox.Show($"Ошибка при подготовке данных:\n{ex.Message}", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+      }
+    }
+
+    // === Показать подготовленные данные ===
+    private void ShowPreparedDataWindow()
+    {
+      var window = new Window
+      {
+        Title = "Подготовленные щиты для печати",
+        Width = 900,
+        Height = 500,
+        WindowStartupLocation = WindowStartupLocation.CenterOwner
+      };
+
+      var grid = new DataGrid
+      {
+        ItemsSource = preparedItems,
+        AutoGenerateColumns = true,
+        IsReadOnly = true,
+        AlternatingRowBackground = System.Windows.Media.Brushes.LightGray,
+        RowHeaderWidth = 0,
+        Margin = new Thickness(10)
+      };
+
+      // Создаём контейнер и добавляем грид
+      var content = new Grid();
+      content.Children.Add(grid);
+      content.Margin = new Thickness(10);
+
+      window.Content = content;
+      window.ShowDialog();
     }
 
     private void BtnPrint_Click(object sender, RoutedEventArgs e)

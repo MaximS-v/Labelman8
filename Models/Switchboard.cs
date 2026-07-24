@@ -1,23 +1,40 @@
-﻿namespace Labelman8.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Labelman8.Models
 {
   public class Switchboard
   {
-    [ExcelColumn("Зав. номер")]
-    public string serialNumber { get; set; }
+    [Display(Name = "Зав. номер")]
+    public string SerialNumber { get; set; }
 
-    [ExcelColumn("Наименование")]
+    [Display(Name = "Наименование")]
     public string Name { get; set; }
 
-    [ExcelColumn("In")]
+    [Display(Name = "In, A")]
     public double In { get; set; }
 
-    [ExcelColumn("Fn")]
+    [Display(Name = "Fn, Hz")]
     public double Fn { get; set; }
 
-    [ExcelColumn("Um")]
+    [Display(Name = "Um, V")]
     public double Um { get; set; }
 
-    [ExcelColumn("Назначение")]
+    [Display(Name = "Тип")]
     public string Function { get; set; }
+
+    public override string ToString()
+    {
+      return $"{SerialNumber,-12} {Name,-20} {In,8:F2} {Fn,8:F2} {Um,8:F2} {Function,-15}";
+    }
+
+    public static string GetHeaders()
+    {
+      return $"{"Serial",-12} {"Name",-20} {"In",8} {"Fn",8} {"Um",8} {"Function",-15}";
+    }
+
+    public static string GetSeparator()
+    {
+      return new string('-', 80);
+    }
   }
 }

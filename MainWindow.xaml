@@ -21,9 +21,9 @@
                     Click="BtnExcel_Click"/>
 
 			<Button x:Name="btnPrint" 
-                    Content="🖨️ Печать" 
-                    Width="160" Height="40"
-                    Click="BtnPrint_Click"/>
+                    Content="📋 Подготовка печати"
+                    Width="180" Height="40"
+                    Click="BtnPreparePrint_Click"/>
 			<Button x:Name="btnSave" 
                     Content="💾 Сохранить изменения" 
                     Width="160" Height="40"

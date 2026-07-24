@@ -134,6 +134,7 @@
     <Compile Include="Modules\AppSettings.cs" />
     <Compile Include="Modules\ExcelReader\ExcelColumnMapper.cs" />
     <Compile Include="Modules\ExcelReader\ExcelReader.cs" />
+    <Compile Include="Modules\SwitchboardGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
