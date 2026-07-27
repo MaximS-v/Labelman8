@@ -140,8 +140,17 @@ namespace Labelman8
       // Логотип "ЗЭО" (слева)
       DrawTextContent(dc, "ЗЭО", x + offset2, y + offset0, fontLogo, fontSizeLogo, brush, TextAlignment.Left);
 
+      // Определяем символ тока
+      string currentSymbol = (item.Fn > 0) ? "~" : "⎓"; // ~ для AC, ⎓ для DC
+
       // Основной текст (центрирован)
-      string mainText = $"{item.Function}\n{item.Name}\nЭлектропитание ≈{item.Um}В (±10)% ({item.Fn}±1)Гц\n Зав.№ {item.SerialNumber}    Номинальный ток {item.In}А";
+      string mainText = $"{item.Function}\n{item.Name}\nЭлектропитание {currentSymbol}{item.Um}В (±10)%";
+      if (item.Fn > 0)
+      {
+        mainText += $"({item.Fn}±1)Гц";
+      }
+      mainText += $"\n Зав.№ {item.SerialNumber}    Номинальный ток {item.In}А";
+
       DrawCenteredTextContent(dc, mainText, x + width / 2, y + offset3, fontNormal, fontSize, brush);
 
       // Адрес (выравнивание вправо)
