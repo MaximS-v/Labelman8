@@ -20,14 +20,21 @@
                     Margin="0,0,10,0"
                     Click="BtnExcel_Click"/>
 
-			<Button x:Name="btnPrint" 
-                    Content="📋 Подготовка печати"
-                    Width="180" Height="40"
+			<Button x:Name="btnPreparePrint" 
+                    Content="📋 Шильдики" 
+                    Width="160" Height="40" 
+                    Margin="0,0,10,0"
                     Click="BtnPreparePrint_Click"/>
+
+			<Button x:Name="btnPackaging" 
+                    Content="📦 Упаковка" 
+                    Width="160" Height="40" 
+                    Margin="0,0,10,0"
+                    Click="BtnPackaging_Click"/>
+
 			<Button x:Name="btnSave" 
                     Content="💾 Сохранить изменения" 
-                    Width="160" Height="40"
-                    Margin="10,0,0,0"
+                    Width="180" Height="40"
                     Click="BtnSave_Click"/>
 		</StackPanel>
 

@@ -128,6 +128,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PackagingPreviewWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PrintPreviewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -141,6 +145,9 @@
     <Compile Include="Modules\ExcelReader\ExcelColumnMapper.cs" />
     <Compile Include="Modules\ExcelReader\ExcelReader.cs" />
     <Compile Include="Modules\SwitchboardGenerator.cs" />
+    <Compile Include="PackagingPreviewWindow.xaml.cs">
+      <DependentUpon>PackagingPreviewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PrintPreviewWindow.xaml.cs">
       <DependentUpon>PrintPreviewWindow.xaml</DependentUpon>
     </Compile>

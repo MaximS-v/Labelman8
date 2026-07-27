@@ -150,19 +150,19 @@ namespace Labelman8
       window.ShowDialog();
     }
 
-    private void BtnPrint_Click(object sender, RoutedEventArgs e)
-    {
-			if (specItems.Count == 0)
-			{
-				MessageBox.Show("Сначала загрузите данные из Excel!", "Информация",
-												MessageBoxButton.OK, MessageBoxImage.Information);
-				return;
-			}
+  //  private void BtnPrint_Click(object sender, RoutedEventArgs e)
+  //  {
+		//	if (specItems.Count == 0)
+		//	{
+		//		MessageBox.Show("Сначала загрузите данные из Excel!", "Информация",
+		//										MessageBoxButton.OK, MessageBoxImage.Information);
+		//		return;
+		//	}
 
-			txtStatus.Text = $"🖨️ Печать... (заглушка)";
-			MessageBox.Show($"Печать {specItems.Count} записей (заглушка).", "Печать",
-											MessageBoxButton.OK, MessageBoxImage.Information);
-		}
+		//	txtStatus.Text = $"🖨️ Печать... (заглушка)";
+		//	MessageBox.Show($"Печать {specItems.Count} записей (заглушка).", "Печать",
+		//									MessageBoxButton.OK, MessageBoxImage.Information);
+		//}
 
 		private void BtnSave_Click(object sender, RoutedEventArgs e)
 		{
@@ -178,5 +178,43 @@ namespace Labelman8
 			MessageBox.Show($"Сохранение {specItems.Count} записей (заглушка).", "Сохранение",
 											MessageBoxButton.OK, MessageBoxImage.Information);
 		}
-	}
+
+    // === Обработчик: Упаковка ===
+    private void BtnPackaging_Click(object sender, RoutedEventArgs e)
+    {
+      if (specItems.Count == 0)
+      {
+        MessageBox.Show("Сначала загрузите данные из Excel!", "Информация",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+        return;
+      }
+
+      try
+      {
+        var generator = new SwitchboardGenerator();
+        var preparedItems = generator.GenerateFromSpec(specItems.ToList());
+
+        if (preparedItems.Count == 0)
+        {
+          MessageBox.Show("Нет данных для упаковки!", "Информация",
+                          MessageBoxButton.OK, MessageBoxImage.Information);
+          return;
+        }
+
+        txtStatus.Text = $"📦 Подготовка упаковки...";
+
+        var previewWindow = new PackagingPreviewWindow(preparedItems);
+        previewWindow.Owner = this;
+        previewWindow.ShowDialog();
+
+        txtStatus.Text = $"✅ Подготовлено {preparedItems.Count} изделий для упаковки";
+      }
+      catch (Exception ex)
+      {
+        txtStatus.Text = $"❌ Ошибка: {ex.Message}";
+        MessageBox.Show($"Ошибка при подготовке упаковки:\n{ex.Message}", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+      }
+    }
+  }
 }
