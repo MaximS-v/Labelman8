@@ -27,9 +27,22 @@ namespace Labelman8
 
 			// Подписываемся на событие для настройки заголовков
 			dgData.AutoGeneratingColumn += DgData_AutoGeneratingColumn;
-		}
 
-		private void DgData_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+      // Изначально кнопки неактивны
+      UpdateButtonsState();
+    }
+
+    // === Управление состоянием кнопок ===
+    private void UpdateButtonsState()
+    {
+      bool hasData = specItems != null && specItems.Count > 0;
+
+      btnPreparePrint.IsEnabled = hasData;
+      btnPackaging.IsEnabled = hasData;
+      btnMarking.IsEnabled = hasData;
+    }
+
+    private void DgData_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
 		{
 			// Получаем информацию о свойстве
 			var propertyDescriptor = e.PropertyDescriptor as System.ComponentModel.PropertyDescriptor;
@@ -74,13 +87,19 @@ namespace Labelman8
 					}
 
 					txtStatus.Text = $"✅ Добавлено записей: {data.Count}, всего: {specItems.Count}";
-				}
+
+          // Обновляем состояние кнопок после загрузки
+          UpdateButtonsState();
+        }
         catch (Exception ex)
         {
 					txtStatus.Text = $"❌ Ошибка: {ex.Message}";
 					MessageBox.Show($"Ошибка при чтении файла:\n{ex.Message}", "Ошибка",
 													MessageBoxButton.OK, MessageBoxImage.Error);
-				}
+
+          // Если ошибка — кнопки остаются неактивными
+          UpdateButtonsState();
+        }
       }
     }
 
@@ -120,64 +139,45 @@ namespace Labelman8
       }
     }
 
-    // === Показать подготовленные данные ===
-    private void ShowPreparedDataWindow()
+    // === Обработчик: Маркировка ===
+    private void BtnMarking_Click(object sender, RoutedEventArgs e)
     {
-      var window = new Window
+      if (specItems.Count == 0)
       {
-        Title = "Подготовленные щиты для печати",
-        Width = 900,
-        Height = 500,
-        WindowStartupLocation = WindowStartupLocation.CenterOwner
-      };
+        MessageBox.Show("Сначала загрузите данные из Excel!", "Информация",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+        return;
+      }
 
-      var grid = new DataGrid
+      try
       {
-        ItemsSource = preparedItems,
-        AutoGenerateColumns = true,
-        IsReadOnly = true,
-        AlternatingRowBackground = System.Windows.Media.Brushes.LightGray,
-        RowHeaderWidth = 0,
-        Margin = new Thickness(10)
-      };
+        var generator = new SwitchboardGenerator();
+        var preparedItems = generator.GenerateFromSpec(specItems.ToList());
 
-      // Создаём контейнер и добавляем грид
-      var content = new Grid();
-      content.Children.Add(grid);
-      content.Margin = new Thickness(10);
+        if (preparedItems.Count == 0)
+        {
+          MessageBox.Show("Нет данных для маркировки!", "Информация",
+                          MessageBoxButton.OK, MessageBoxImage.Information);
+          return;
+        }
 
-      window.Content = content;
-      window.ShowDialog();
+        txtStatus.Text = $"🏷️ Подготовка маркировки...";
+
+        // TODO: Здесь будет логика генерации маркировочных листов
+        // Например, создание этикеток с QR-кодами, штрих-кодами или другой информацией
+
+        MessageBox.Show($"Подготовлено {preparedItems.Count} изделий для маркировки.", "Маркировка",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+
+        txtStatus.Text = $"✅ Подготовлено {preparedItems.Count} изделий для маркировки";
+      }
+      catch (Exception ex)
+      {
+        txtStatus.Text = $"❌ Ошибка: {ex.Message}";
+        MessageBox.Show($"Ошибка при подготовке маркировки:\n{ex.Message}", "Ошибка",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+      }
     }
-
-  //  private void BtnPrint_Click(object sender, RoutedEventArgs e)
-  //  {
-		//	if (specItems.Count == 0)
-		//	{
-		//		MessageBox.Show("Сначала загрузите данные из Excel!", "Информация",
-		//										MessageBoxButton.OK, MessageBoxImage.Information);
-		//		return;
-		//	}
-
-		//	txtStatus.Text = $"🖨️ Печать... (заглушка)";
-		//	MessageBox.Show($"Печать {specItems.Count} записей (заглушка).", "Печать",
-		//									MessageBoxButton.OK, MessageBoxImage.Information);
-		//}
-
-		private void BtnSave_Click(object sender, RoutedEventArgs e)
-		{
-			if (specItems.Count == 0)
-			{
-				MessageBox.Show("Нет данных для сохранения!", "Информация",
-												MessageBoxButton.OK, MessageBoxImage.Information);
-				return;
-			}
-
-			// TODO: Здесь будет логика сохранения изменений обратно в Excel
-			txtStatus.Text = "💾 Сохранение... (заглушка)";
-			MessageBox.Show($"Сохранение {specItems.Count} записей (заглушка).", "Сохранение",
-											MessageBoxButton.OK, MessageBoxImage.Information);
-		}
 
     // === Обработчик: Упаковка ===
     private void BtnPackaging_Click(object sender, RoutedEventArgs e)
