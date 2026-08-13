@@ -8,6 +8,21 @@
         Title="Маркировка" Height="600" Width="800"
 	    WindowStartupLocation="CenterOwner">
 	<Grid>
-        
-    </Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<!-- Панель с кнопками -->
+		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+			<Button x:Name="btnTypes" Content="Виды маркировки" Width="150" Height="30" Margin="5" Click="BtnTypes_Click"/>
+			<Button x:Name="btnAdd" Content="Добавить маркировку" Width="150" Height="30" Margin="5" Click="BtnAdd_Click"/>
+			<Button x:Name="btnPrint" Content="Печать" Width="150" Height="30" Margin="5" Click="BtnPrint_Click"/>
+		</StackPanel>
+
+		<!-- Основное содержимое (пока пусто) -->
+		<Grid Grid.Row="1" Margin="10">
+			<!-- Здесь позже будет список маркировки -->
+		</Grid>
+	</Grid>
 </local:StorableWindow>
