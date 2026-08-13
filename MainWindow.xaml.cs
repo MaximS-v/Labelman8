@@ -10,8 +10,9 @@ using System.Windows.Controls;
 
 namespace Labelman8
 {
-  public partial class MainWindow : Window
+  public partial class MainWindow : StorableWindow
   {
+		protected override string WindowRegistryName => "MainWindow";
 		// === Коллекция для привязки к DataGrid ===
 		private ObservableCollection<SwitchboardSpecItem> specItems = new ObservableCollection<SwitchboardSpecItem>();
 

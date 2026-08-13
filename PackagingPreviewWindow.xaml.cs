@@ -12,9 +12,10 @@ using System.Windows.Media.Imaging;
 
 namespace Labelman8
 {
-  public partial class PackagingPreviewWindow : Window
+  public partial class PackagingPreviewWindow : StorableWindow
   {
-    private List<Switchboard> items;
+		protected override string WindowRegistryName => "PackagingPreview";
+		private List<Switchboard> items;
     private List<RenderTargetBitmap> pages = new List<RenderTargetBitmap>();
     private int currentPage = 0;
     private const double PREVIEW_DPI = 96;

@@ -1,6 +1,7 @@
-﻿<Window x:Class="Labelman8.MainWindow"
+﻿<local:StorableWindow x:Class="Labelman8.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:local="clr-namespace:Labelman8"
         Title="Приложение для печати" 
         Height="600" Width="900"
         WindowStartupLocation="CenterScreen">
@@ -60,4 +61,4 @@
 			</StatusBarItem>
 		</StatusBar>
 	</Grid>
-</Window>
+</local:StorableWindow>

@@ -17,8 +17,9 @@ namespace Labelman8
 	/// <summary>
 	/// Interaction logic for MarkingWindow.xaml
 	/// </summary>
-	public partial class MarkingWindow : Window
+	public partial class MarkingWindow : StorableWindow
 	{
+		protected override string WindowRegistryName => "MarkingWindow";
 		public MarkingWindow()
 		{
 			InitializeComponent();

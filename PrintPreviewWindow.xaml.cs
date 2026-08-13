@@ -11,9 +11,10 @@ using Labelman8.Models;
 
 namespace Labelman8
 {
-  public partial class PrintPreviewWindow : Window
+  public partial class PrintPreviewWindow : StorableWindow
   {
-    private List<Switchboard> items;
+		protected override string WindowRegistryName => "PrintPreview";
+		private List<Switchboard> items;
     private List<RenderTargetBitmap> pages = new List<RenderTargetBitmap>();
     private int currentPage = 0;
 
