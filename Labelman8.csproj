@@ -139,6 +139,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ExcelColumnAttribute.cs" />
+    <Compile Include="Models\MarkingItem.cs" />
+    <Compile Include="Models\MarkingType.cs" />
     <Compile Include="Models\Switchboard.cs" />
     <Compile Include="Models\SwitchboardSpecItem.cs" />
     <Compile Include="Modules\AppSettings.cs" />
