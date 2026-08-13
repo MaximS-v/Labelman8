@@ -4,7 +4,9 @@ using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -18,7 +20,10 @@ namespace Labelman8
 		// === Коллекция для печати ===
     private ObservableCollection<Switchboard> preparedItems = new ObservableCollection<Switchboard>();
 
-    public MainWindow()
+		private string dbConnectionStatus = "БД: не подключено";
+		private string activeServer = "";
+
+		public MainWindow()
     {
       InitializeComponent();
 
@@ -28,12 +33,88 @@ namespace Labelman8
 			// Подписываемся на событие для настройки заголовков
 			dgData.AutoGeneratingColumn += DgData_AutoGeneratingColumn;
 
-      // Изначально кнопки неактивны
-      UpdateButtonsState();
+			// Проверяем подключение к БД при запуске
+			// CheckDatabaseConnection();
+
+			// Изначально кнопки неактивны
+			UpdateButtonsState();
     }
 
-    // === Управление состоянием кнопок ===
-    private void UpdateButtonsState()
+		private async void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Показываем, что идёт подключение
+			txtDbStatus.Text = "БД: подключение...";
+			txtDbStatus.Foreground = System.Windows.Media.Brushes.Orange;
+
+			// Выполняем подключение асинхронно
+			await CheckDatabaseConnectionAsync();
+
+			// После подключения обновляем состояние кнопок (если данные уже загружены)
+			UpdateButtonsState();
+		}
+
+		private async Task CheckDatabaseConnectionAsync()
+		{
+			// Запускаем в фоновом потоке
+			var result = await Task.Run(() =>
+			{
+				try
+				{
+					var dbHelper = new DatabaseHelper();
+					string connectedServer = dbHelper.GetConnectedServer();
+
+					if (!string.IsNullOrEmpty(connectedServer))
+					{
+						return new { Success = true, Server = connectedServer };
+					}
+					else
+					{
+						return new { Success = false, Server = "" };
+					}
+				}
+				catch (Exception ex)
+				{
+					Debug.WriteLine($"Ошибка подключения к БД: {ex.Message}");
+					return new { Success = false, Server = "" };
+				}
+			});
+
+			// Обновляем UI
+			if (result.Success)
+			{
+				dbConnectionStatus = $"БД: подключено ({result.Server})";
+				activeServer = result.Server;
+				txtDbStatus.Text = dbConnectionStatus;
+				txtDbStatus.Foreground = System.Windows.Media.Brushes.Green;
+
+				await LoadMarkingTypesAsync();
+			}
+			else
+			{
+				dbConnectionStatus = "БД: не подключено";
+				txtDbStatus.Text = dbConnectionStatus;
+				txtDbStatus.Foreground = System.Windows.Media.Brushes.Gray;
+			}
+		}
+
+		private async Task LoadMarkingTypesAsync()
+		{
+			try
+			{
+				var dbHelper = new DatabaseHelper();
+				var types = await Task.Run(() => dbHelper.GetAllMarkingTypes());
+
+				System.Diagnostics.Debug.WriteLine($"Загружено типов маркировки: {types.Count}");
+				// TODO: Заполнить список типов маркировки в UI
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Ошибка загрузки типов маркировки: {ex.Message}");
+			}
+		}
+
+				// === Управление состоянием кнопок ===
+		private void UpdateButtonsState()
     {
       bool hasData = specItems != null && specItems.Count > 0;
 
