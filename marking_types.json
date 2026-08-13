@@ -1,0 +1,12 @@
+{
+	"MarkingTypes": [
+		{
+			"Id": 1,
+			"Name": "Название",
+			"WidthMM": 80,
+			"HeightMM": 30,
+			"FontName": "Calibri",
+			"DefaultFontSizePt": 36
+		}
+	]
+}

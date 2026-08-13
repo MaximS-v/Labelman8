@@ -139,48 +139,16 @@ namespace Labelman8
       }
     }
 
-    // === Обработчик: Маркировка ===
-    private void BtnMarking_Click(object sender, RoutedEventArgs e)
-    {
-      if (specItems.Count == 0)
-      {
-        MessageBox.Show("Сначала загрузите данные из Excel!", "Информация",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
-        return;
-      }
+		// === Обработчик: Маркировка ===
+		private void BtnMarking_Click(object sender, RoutedEventArgs e)
+		{
+			var window = new MarkingWindow();
+			window.Owner = this;
+			window.ShowDialog();
+		}
 
-      try
-      {
-        var generator = new SwitchboardGenerator();
-        var preparedItems = generator.GenerateFromSpec(specItems.ToList());
-
-        if (preparedItems.Count == 0)
-        {
-          MessageBox.Show("Нет данных для маркировки!", "Информация",
-                          MessageBoxButton.OK, MessageBoxImage.Information);
-          return;
-        }
-
-        txtStatus.Text = $"🏷️ Подготовка маркировки...";
-
-        // TODO: Здесь будет логика генерации маркировочных листов
-        // Например, создание этикеток с QR-кодами, штрих-кодами или другой информацией
-
-        MessageBox.Show($"Подготовлено {preparedItems.Count} изделий для маркировки.", "Маркировка",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
-
-        txtStatus.Text = $"✅ Подготовлено {preparedItems.Count} изделий для маркировки";
-      }
-      catch (Exception ex)
-      {
-        txtStatus.Text = $"❌ Ошибка: {ex.Message}";
-        MessageBox.Show($"Ошибка при подготовке маркировки:\n{ex.Message}", "Ошибка",
-                        MessageBoxButton.OK, MessageBoxImage.Error);
-      }
-    }
-
-    // === Обработчик: Упаковка ===
-    private void BtnPackaging_Click(object sender, RoutedEventArgs e)
+		// === Обработчик: Упаковка ===
+		private void BtnPackaging_Click(object sender, RoutedEventArgs e)
     {
       if (specItems.Count == 0)
       {
