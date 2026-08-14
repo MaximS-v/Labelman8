@@ -1,0 +1,14 @@
+{
+	"TerminalMarkingTypes": [
+		{
+			"Name": "Клеммник 2.5 мм кв.",
+			"HeightMM": 10,
+			"PitchMM": 5.2
+		},
+		{
+			"Name": "Клеммник 4 мм кв.",
+			"HeightMM": 10,
+			"PitchMM": 6.2
+		}
+	]
+}

@@ -117,6 +117,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\TerminalMarking.cs" />
+    <Compile Include="Models\TerminalMarkingType.cs" />
     <Compile Include="StorableWindow.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -187,6 +189,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="terminal_marking_types.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
