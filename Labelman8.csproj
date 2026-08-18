@@ -117,9 +117,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddMarkingWindow.xaml.cs">
+      <DependentUpon>AddMarkingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\TerminalMarking.cs" />
     <Compile Include="Models\TerminalMarkingType.cs" />
     <Compile Include="StorableWindow.cs" />
+    <Page Include="AddMarkingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

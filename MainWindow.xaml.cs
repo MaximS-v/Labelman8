@@ -40,7 +40,7 @@ namespace Labelman8
 
       btnPreparePrint.IsEnabled = hasData;
       btnPackaging.IsEnabled = hasData;
-      btnMarking.IsEnabled = hasData;
+      btnMarking.IsEnabled = true;
     }
 
     private void DgData_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)

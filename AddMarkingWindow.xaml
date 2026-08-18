@@ -1,0 +1,25 @@
+﻿<local:StorableWindow x:Class="Labelman8.AddMarkingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Labelman8"
+        Title="Добавление маркировки" 
+        Height="400" Width="500"
+        WindowStartupLocation="CenterOwner">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<!-- Кнопка -->
+		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+			<Button x:Name="btnAddType" Content="Добавить вид маркировки" Width="180" Height="30" Margin="5" Click="BtnAddType_Click"/>
+		</StackPanel>
+
+		<!-- Основное содержимое (пока пусто) -->
+		<Grid Grid.Row="1" Margin="10">
+			<!-- Здесь позже будет форма добавления маркировки -->
+		</Grid>
+	</Grid>
+</local:StorableWindow>

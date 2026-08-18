@@ -25,19 +25,14 @@ namespace Labelman8
 			InitializeComponent();
 		}
 
-		private void BtnTypes_Click(object sender, RoutedEventArgs e)
-		{
-			// TODO: открыть окно "Виды маркировки"
-			MessageBox.Show("Виды маркировки (заглушка)");
-		}
+    private void BtnAdd_Click(object sender, RoutedEventArgs e)
+    {
+      var window = new AddMarkingWindow();
+      window.Owner = this;
+      window.ShowDialog();
+    }
 
-		private void BtnAdd_Click(object sender, RoutedEventArgs e)
-		{
-			// TODO: добавить новую маркировку
-			MessageBox.Show("Добавить маркировку (заглушка)");
-		}
-
-		private void BtnPrint_Click(object sender, RoutedEventArgs e)
+    private void BtnPrint_Click(object sender, RoutedEventArgs e)
 		{
 			// TODO: печать маркировки
 			MessageBox.Show("Печать маркировки (заглушка)");

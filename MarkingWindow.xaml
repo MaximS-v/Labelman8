@@ -15,7 +15,6 @@
 
 		<!-- Панель с кнопками -->
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
-			<Button x:Name="btnTypes" Content="Виды маркировки" Width="150" Height="30" Margin="5" Click="BtnTypes_Click"/>
 			<Button x:Name="btnAdd" Content="Добавить маркировку" Width="150" Height="30" Margin="5" Click="BtnAdd_Click"/>
 			<Button x:Name="btnPrint" Content="Печать" Width="150" Height="30" Margin="5" Click="BtnPrint_Click"/>
 		</StackPanel>
