@@ -14,17 +14,21 @@ namespace Labelman8
     private ObservableCollection<MarkingType> markingTypes = new ObservableCollection<MarkingType>();
     private ObservableCollection<TerminalMarkingType> terminalMarkingTypes = new ObservableCollection<TerminalMarkingType>();
 
-    public AddMarkingWindow()
-    {
-      InitializeComponent();
+		public AddMarkingWindow()
+		{
+			InitializeComponent();
 
-      dgMarkingTypes.ItemsSource = markingTypes;
+			// Привязываем таблицу "Аппараты"
+			dgMarkingTypes.ItemsSource = markingTypes;
 
-      LoadMarkingTypes();
-      LoadTerminalMarkingTypes();
-    }
+			// Привязываем таблицу "Клеммы"
+			dgTerminalMarkingTypes.ItemsSource = terminalMarkingTypes;
 
-    private void LoadMarkingTypes()
+			LoadMarkingTypes();
+			LoadTerminalMarkingTypes();
+		}
+
+		private void LoadMarkingTypes()
     {
       try
       {

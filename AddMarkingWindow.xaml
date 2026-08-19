@@ -3,12 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Labelman8"
         Title="Добавление маркировки" 
-        Height="400" Width="600"
+        Height="550" Width="600"
         WindowStartupLocation="CenterOwner">
 
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="Auto"/>
@@ -20,10 +22,10 @@
 			<Button x:Name="btnEditType" Content="Изменить вид маркировки" Width="180" Height="30" Margin="5" Click="BtnEditType_Click"/>
 		</StackPanel>
 
-		<!-- Заголовок таблицы -->
+		<!-- Заголовок таблицы "Аппараты" -->
 		<TextBlock Grid.Row="1" Text="Аппараты" FontSize="16" FontWeight="Bold" Margin="10,10,10,5" HorizontalAlignment="Center"/>
 
-		<!-- Таблица с видами маркировки -->
+		<!-- Таблица "Аппараты" -->
 		<DataGrid x:Name="dgMarkingTypes" 
                   Grid.Row="2"
                   AutoGenerateColumns="False"
@@ -32,7 +34,7 @@
                   IsReadOnly="True"
                   AlternatingRowBackground="LightGray"
                   RowHeaderWidth="0"
-                  Margin="10">
+                  Margin="10,0,10,10">
 
 			<DataGrid.Columns>
 				<DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
@@ -43,8 +45,29 @@
 			</DataGrid.Columns>
 		</DataGrid>
 
-		<!-- Нижняя панель (пока пуста) -->
-		<StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+		<!-- Заголовок таблицы "Клеммы" -->
+		<TextBlock Grid.Row="3" Text="Клеммы" FontSize="16" FontWeight="Bold" Margin="10,10,10,5" HorizontalAlignment="Center"/>
+
+		<!-- Таблица "Клеммы" -->
+		<DataGrid x:Name="dgTerminalMarkingTypes" 
+                  Grid.Row="4"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  AlternatingRowBackground="LightGray"
+                  RowHeaderWidth="0"
+                  Margin="10,0,10,10">
+
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+				<DataGridTextColumn Header="Высота" Binding="{Binding HeightMM}" Width="80"/>
+				<DataGridTextColumn Header="Шаг" Binding="{Binding PitchMM}" Width="80"/>
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<!-- Нижняя панель -->
+		<StackPanel Grid.Row="5" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
 			<!-- Здесь позже могут быть кнопки управления -->
 		</StackPanel>
 	</Grid>
