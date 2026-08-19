@@ -16,5 +16,11 @@ namespace Labelman8
       // TODO: открыть окно для добавления вида маркировки
       MessageBox.Show("Добавить вид маркировки (заглушка)");
     }
+
+    private void BtnEditType_Click(object sender, RoutedEventArgs e)
+    {
+      // TODO: открыть окно для изменения вида маркировки
+      MessageBox.Show("Изменить вид маркировки (заглушка)");
+    }
   }
 }

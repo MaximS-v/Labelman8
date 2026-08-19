@@ -12,9 +12,9 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
-		<!-- Кнопка -->
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
 			<Button x:Name="btnAddType" Content="Добавить вид маркировки" Width="180" Height="30" Margin="5" Click="BtnAddType_Click"/>
+			<Button x:Name="btnEditType" Content="Изменить вид маркировки" Width="180" Height="30" Margin="5" Click="BtnEditType_Click"/>
 		</StackPanel>
 
 		<!-- Основное содержимое (пока пусто) -->
