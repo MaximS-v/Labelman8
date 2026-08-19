@@ -88,14 +88,22 @@ namespace Labelman8
       }
     }
 
-    private void BtnAddType_Click(object sender, RoutedEventArgs e)
-    {
-      MessageBox.Show("Добавить вид маркировки (заглушка)");
-    }
+		private void BtnAddDeviceType_Click(object sender, RoutedEventArgs e)
+		{
+			// TODO: открыть окно добавления вида маркировки для аппаратов
+			MessageBox.Show("Добавить вид маркировки для аппаратов (заглушка)");
+		}
 
-    private void BtnEditType_Click(object sender, RoutedEventArgs e)
-    {
-      MessageBox.Show("Изменить вид маркировки (заглушка)");
-    }
-  }
+		private void BtnAddTerminalType_Click(object sender, RoutedEventArgs e)
+		{
+			// TODO: открыть окно добавления вида маркировки для клемм
+			MessageBox.Show("Добавить вид маркировки для клемм (заглушка)");
+		}
+
+		private void BtnEditType_Click(object sender, RoutedEventArgs e)
+		{
+			// TODO: открыть окно изменения вида маркировки
+			MessageBox.Show("Изменить вид маркировки (заглушка)");
+		}
+	}
 }
