@@ -105,5 +105,11 @@ namespace Labelman8
 			// TODO: открыть окно изменения вида маркировки
 			MessageBox.Show("Изменить вид маркировки (заглушка)");
 		}
+
+		private void BtnDeleteType_Click(object sender, RoutedEventArgs e)
+		{
+			// TODO: удаление вида маркировки
+			MessageBox.Show("Удалить вид маркировки (заглушка)");
+		}
 	}
 }
