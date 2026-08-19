@@ -122,6 +122,7 @@
     </Compile>
     <Compile Include="Models\TerminalMarking.cs" />
     <Compile Include="Models\TerminalMarkingType.cs" />
+    <Compile Include="Models\TerminalMarkingTypesStorage.cs" />
     <Compile Include="StorableWindow.cs" />
     <Page Include="AddMarkingWindow.xaml">
       <SubType>Designer</SubType>
@@ -165,7 +166,7 @@
     <Compile Include="Modules\ExcelReader\ExcelColumnMapper.cs" />
     <Compile Include="Modules\ExcelReader\ExcelReader.cs" />
     <Compile Include="Modules\MarkingTypesLoader.cs" />
-    <Compile Include="Modules\MarkingTypesStorage.cs" />
+    <Compile Include="Models\MarkingTypesStorage.cs" />
     <Compile Include="Modules\SwitchboardGenerator.cs" />
     <Compile Include="PackagingPreviewWindow.xaml.cs">
       <DependentUpon>PackagingPreviewWindow.xaml</DependentUpon>
@@ -190,13 +191,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="marking_types.json" />
+    <None Include="marking_types.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="terminal_marking_types.json" />
+    <None Include="terminal_marking_types.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

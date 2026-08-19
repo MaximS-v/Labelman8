@@ -3,23 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Labelman8"
         Title="Добавление маркировки" 
-        Height="400" Width="500"
+        Height="400" Width="600"
         WindowStartupLocation="CenterOwner">
 
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
+		<!-- Верхняя панель с кнопками -->
 		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
 			<Button x:Name="btnAddType" Content="Добавить вид маркировки" Width="180" Height="30" Margin="5" Click="BtnAddType_Click"/>
 			<Button x:Name="btnEditType" Content="Изменить вид маркировки" Width="180" Height="30" Margin="5" Click="BtnEditType_Click"/>
 		</StackPanel>
 
-		<!-- Основное содержимое (пока пусто) -->
-		<Grid Grid.Row="1" Margin="10">
-			<!-- Здесь позже будет форма добавления маркировки -->
-		</Grid>
+		<!-- Таблица с видами маркировки -->
+		<DataGrid x:Name="dgMarkingTypes" 
+                  Grid.Row="1"
+                  AutoGenerateColumns="True"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  AlternatingRowBackground="LightGray"
+                  RowHeaderWidth="0"
+                  Margin="10">
+		</DataGrid>
+
+		<!-- Нижняя панель (пока пуста) -->
+		<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+			<!-- Здесь позже могут быть кнопки управления -->
+		</StackPanel>
 	</Grid>
 </local:StorableWindow>
