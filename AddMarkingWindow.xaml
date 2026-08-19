@@ -9,6 +9,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
@@ -19,20 +20,31 @@
 			<Button x:Name="btnEditType" Content="Изменить вид маркировки" Width="180" Height="30" Margin="5" Click="BtnEditType_Click"/>
 		</StackPanel>
 
+		<!-- Заголовок таблицы -->
+		<TextBlock Grid.Row="1" Text="Аппараты" FontSize="16" FontWeight="Bold" Margin="10,10,10,5" HorizontalAlignment="Center"/>
+
 		<!-- Таблица с видами маркировки -->
 		<DataGrid x:Name="dgMarkingTypes" 
-                  Grid.Row="1"
-                  AutoGenerateColumns="True"
+                  Grid.Row="2"
+                  AutoGenerateColumns="False"
                   CanUserAddRows="False"
                   CanUserDeleteRows="False"
                   IsReadOnly="True"
                   AlternatingRowBackground="LightGray"
                   RowHeaderWidth="0"
                   Margin="10">
+
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*"/>
+				<DataGridTextColumn Header="Ширина" Binding="{Binding WidthMM}" Width="80"/>
+				<DataGridTextColumn Header="Высота" Binding="{Binding HeightMM}" Width="80"/>
+				<DataGridTextColumn Header="Шрифт" Binding="{Binding FontName}" Width="100"/>
+				<DataGridTextColumn Header="Размер" Binding="{Binding DefaultFontSizePt}" Width="80"/>
+			</DataGrid.Columns>
 		</DataGrid>
 
 		<!-- Нижняя панель (пока пуста) -->
-		<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+		<StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
 			<!-- Здесь позже могут быть кнопки управления -->
 		</StackPanel>
 	</Grid>
