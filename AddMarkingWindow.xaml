@@ -66,6 +66,7 @@
 				<DataGridTextColumn Header="Высота" Binding="{Binding HeightMM}" Width="80"/>
 				<DataGridTextColumn Header="Шрифт" Binding="{Binding FontName}" Width="100"/>
 				<DataGridTextColumn Header="Размер" Binding="{Binding DefaultFontSizePt}" Width="80"/>
+				<DataGridTextColumn Header="Системный" Binding="{Binding IsSystem}" Width="80"/>
 			</DataGrid.Columns>
 		</DataGrid>
 

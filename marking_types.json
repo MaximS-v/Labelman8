@@ -5,7 +5,8 @@
 			"WidthMM": 80,
 			"HeightMM": 30,
 			"FontName": "Calibri",
-			"DefaultFontSizePt": 36
+			"DefaultFontSizePt": 36,
+			"IsSystem": true
 		}
 	]
 }

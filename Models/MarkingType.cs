@@ -7,5 +7,6 @@
 		public double HeightMM { get; set; }
 		public string FontName { get; set; }
 		public double DefaultFontSizePt { get; set; }
+		public bool IsSystem { get; set; }  // ← новый атрибут
 	}
 }
