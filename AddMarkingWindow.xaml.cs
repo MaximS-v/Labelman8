@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Labelman8.Models;
+using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Web.Script.Serialization;
 using System.Windows;
-using Labelman8.Models;
+using System.Windows.Controls;
 
 namespace Labelman8
 {
@@ -26,6 +27,7 @@ namespace Labelman8
 
 			LoadMarkingTypes();
 			LoadTerminalMarkingTypes();
+			UpdateButtonsState();
 		}
 
 		private void LoadMarkingTypes()
@@ -110,6 +112,32 @@ namespace Labelman8
 		{
 			// TODO: удаление вида маркировки
 			MessageBox.Show("Удалить вид маркировки (заглушка)");
+		}
+
+		private void UpdateButtonsState()
+		{
+			// Проверяем, выбран ли элемент в таблице "Аппараты" и не является ли он системным
+			bool isDeviceSelected = dgMarkingTypes.SelectedItem is MarkingType deviceType && !deviceType.IsSystem;
+
+			// Для клемм проверяем только наличие выделения(IsSystem не используется)
+
+		bool isTerminalSelected = dgTerminalMarkingTypes.SelectedItem is TerminalMarkingType;
+
+			// Кнопки активны, если выбран НЕсистемный элемент в любой из таблиц
+			bool canEditDelete = isDeviceSelected || isTerminalSelected;
+
+			btnEditType.IsEnabled = canEditDelete;
+			btnDeleteType.IsEnabled = canEditDelete;
+		}
+
+		private void DgMarkingTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			UpdateButtonsState();
+		}
+
+		private void DgTerminalMarkingTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			UpdateButtonsState();
 		}
 	}
 }
