@@ -2,10 +2,13 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:Labelman8"
+		xmlns:converters="clr-namespace:Labelman8.Converters"
         Title="Добавление маркировки" 
         Height="550" Width="600"
         WindowStartupLocation="CenterOwner">
-
+	<local:StorableWindow.Resources>
+		<converters:BoolToPlusMinusConverter x:Key="BoolToPlusMinusConverter"/>
+	</local:StorableWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -66,7 +69,11 @@
 				<DataGridTextColumn Header="Высота" Binding="{Binding HeightMM}" Width="80"/>
 				<DataGridTextColumn Header="Шрифт" Binding="{Binding FontName}" Width="100"/>
 				<DataGridTextColumn Header="Размер" Binding="{Binding DefaultFontSizePt}" Width="80"/>
-				<DataGridTextColumn Header="Системный" Binding="{Binding IsSystem}" Width="80"/>
+				<DataGridTextColumn Header="Системный" Width="80">
+					<DataGridTextColumn.Binding>
+						<Binding Path="IsSystem" Converter="{StaticResource BoolToPlusMinusConverter}"/>
+					</DataGridTextColumn.Binding>
+				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 

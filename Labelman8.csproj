@@ -120,6 +120,7 @@
     <Compile Include="AddMarkingWindow.xaml.cs">
       <DependentUpon>AddMarkingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolToPlusMinusConverter.cs" />
     <Compile Include="Models\TerminalMarking.cs" />
     <Compile Include="Models\TerminalMarkingType.cs" />
     <Compile Include="Models\TerminalMarkingTypesStorage.cs" />
