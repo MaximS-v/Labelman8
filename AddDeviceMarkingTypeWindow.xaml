@@ -8,7 +8,8 @@
         MinHeight="450"
         MinWidth="400"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="CanResize">
+        ResizeMode="CanResize"
+		SizeChanged="Window_SizeChanged">
 
 	<Grid Margin="10">
 		<Grid.RowDefinitions>
@@ -78,23 +79,20 @@
         Padding="10"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        MinHeight="80">
+        MinHeight="100"
+        x:Name="previewContainer">
+
+			<!-- Контейнер для наклейки -->
 			<Border x:Name="stickerBorder"
             BorderBrush="Black" 
             BorderThickness="1" 
             Background="White"
             HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Width="90"
-            Height="25">
-				<TextBlock x:Name="previewTextBlock" 
-                   Text="Образец текста" 
-                   FontFamily="Arial" 
-                   FontSize="36" 
-                   TextWrapping="Wrap"
-                   TextAlignment="Center"
-                   VerticalAlignment="Center"
-                   Margin="2"/>
+            VerticalAlignment="Center">
+
+			<Image x:Name="stickerImage" 
+				Stretch="None"
+				RenderOptions.BitmapScalingMode="HighQuality"/>
 			</Border>
 		</Border>
 

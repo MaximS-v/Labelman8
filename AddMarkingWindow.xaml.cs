@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Web.Script.Serialization;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,7 +16,43 @@ namespace Labelman8
     private ObservableCollection<MarkingType> markingTypes = new ObservableCollection<MarkingType>();
     private ObservableCollection<TerminalMarkingType> terminalMarkingTypes = new ObservableCollection<TerminalMarkingType>();
 
-		public AddMarkingWindow()
+    private void SaveMarkingTypes()
+    {
+      try
+      {
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "marking_types.json");
+        System.Diagnostics.Debug.WriteLine($"Сохранение в: {filePath}");
+
+        var storage = new MarkingTypesStorage
+        {
+          MarkingTypes = markingTypes.ToList()
+        };
+
+        var serializer = new JavaScriptSerializer();
+        string json = serializer.Serialize(storage);
+
+        File.WriteAllText(filePath, json);
+
+        // Проверяем, что файл создан
+        if (File.Exists(filePath))
+        {
+          System.Diagnostics.Debug.WriteLine($"Файл создан, размер: {new FileInfo(filePath).Length} байт");
+        }
+        else
+        {
+          System.Diagnostics.Debug.WriteLine("Файл НЕ создан!");
+        }
+
+        System.Diagnostics.Debug.WriteLine($"Сохранено {markingTypes.Count} типов маркировки");
+      }
+      catch (Exception ex)
+      {
+        System.Diagnostics.Debug.WriteLine($"Ошибка сохранения: {ex.Message}");
+        MessageBox.Show($"Ошибка сохранения данных: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      }
+    }
+
+    public AddMarkingWindow()
 		{
 			InitializeComponent();
 
@@ -98,7 +135,7 @@ namespace Labelman8
       if (window.ShowDialog() == true && window.Result != null)
       {
         markingTypes.Add(window.Result);
-        // Здесь позже добавим сохранение в JSON
+        SaveMarkingTypes(); // ← сохраняем после добавления
         System.Diagnostics.Debug.WriteLine($"Добавлен вид маркировки: {window.Result.Name}");
       }
     }

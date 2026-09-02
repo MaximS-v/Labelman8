@@ -1,8 +1,9 @@
-﻿using Labelman8.Models;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Labelman8.Models;
 
 namespace Labelman8
 {
@@ -15,16 +16,24 @@ namespace Labelman8
     public AddDeviceMarkingTypeWindow()
     {
       InitializeComponent();
-      this.Loaded += (s, e) => UpdatePreview();
+      this.Loaded += (s, e) => RenderSticker();
+      this.SizeChanged += (s, e) => RenderSticker();
     }
 
-    private void UpdatePreview()
+    private void RenderSticker()
     {
       try
       {
-        if (cmbFont == null || previewTextBlock == null || stickerBorder == null) return;
+        if (stickerImage == null || stickerBorder == null || previewContainer == null) return;
 
-        // Шрифт
+        // --- 1. Получаем параметры ---
+        if (!double.TryParse(txtWidth.Text, out double widthMM) || widthMM <= 0 ||
+            !double.TryParse(txtHeight.Text, out double heightMM) || heightMM <= 0)
+        {
+          stickerImage.Source = null;
+          return;
+        }
+
         string fontName = "Arial";
         if (cmbFont.SelectedItem != null)
         {
@@ -37,58 +46,94 @@ namespace Labelman8
             fontName = cmbFont.SelectedItem.ToString();
           }
         }
-        previewTextBlock.FontFamily = new FontFamily(fontName);
 
-        // Размер шрифта
-        if (double.TryParse(txtFontSize.Text, out double fontSize) && fontSize > 0)
+        double fontSize = 36;
+        if (double.TryParse(txtFontSize.Text, out double parsedSize) && parsedSize > 0)
         {
-          previewTextBlock.FontSize = fontSize;
+          fontSize = parsedSize;
         }
 
-        // Текст
-        previewTextBlock.Text = string.IsNullOrWhiteSpace(txtPreviewText.Text)
+        string text = string.IsNullOrWhiteSpace(txtPreviewText.Text)
             ? "Образец текста"
             : txtPreviewText.Text;
 
-        // Размеры наклейки
-        if (double.TryParse(txtWidth.Text, out double widthMM) && widthMM > 0 &&
-            double.TryParse(txtHeight.Text, out double heightMM) && heightMM > 0)
+        // --- 2. Создаём изображение наклейки в высоком разрешении ---
+        const double dpi = 96;
+        const double scale = 20.0; // 1 мм = 20 пикселей
+        int pixelWidth = (int)(widthMM * scale);
+        int pixelHeight = (int)(heightMM * scale);
+
+        var visual = new DrawingVisual();
+        using (var dc = visual.RenderOpen())
         {
-          // Используем постоянный масштаб 5, чтобы наклейка была видна
-          double scale = 5.0;
+          // Белый фон
+          dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, pixelWidth, pixelHeight));
 
-          // Ограничиваем максимальный размер, чтобы не вылезать за пределы окна
-          double maxWidth = 400;
-          double maxHeight = 200;
+          // Рамка
+          var pen = new Pen(Brushes.Black, 1);
+          dc.DrawRectangle(null, pen, new Rect(0, 0, pixelWidth, pixelHeight));
 
-          double scaledWidth = widthMM * scale;
-          double scaledHeight = heightMM * scale;
-
-          if (scaledWidth > maxWidth || scaledHeight > maxHeight)
+          // Текст
+          if (!string.IsNullOrEmpty(text))
           {
-            double scaleX = maxWidth / widthMM;
-            double scaleY = maxHeight / heightMM;
-            scale = Math.Min(scaleX, scaleY);
-          }
+            var font = new Typeface(new FontFamily(fontName), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
+            var formattedText = new FormattedText(
+                text,
+                System.Globalization.CultureInfo.InvariantCulture,
+                FlowDirection.LeftToRight,
+                font,
+                fontSize * scale,
+                Brushes.Black,
+                dpi);
 
-          stickerBorder.Width = widthMM * scale;
-          stickerBorder.Height = heightMM * scale;
+            double x = (pixelWidth - formattedText.Width) / 2;
+            double y = (pixelHeight - formattedText.Height) / 2;
+            dc.DrawText(formattedText, new Point(x, y));
+          }
         }
+
+        var bitmap = new RenderTargetBitmap(pixelWidth, pixelHeight, dpi, dpi, PixelFormats.Pbgra32);
+        bitmap.Render(visual);
+
+        // --- 3. Отображаем с высоким качеством ---
+        stickerImage.Source = bitmap;
+        stickerImage.Width = pixelWidth;
+        stickerImage.Height = pixelHeight;
+
+        // Масштабируем для предпросмотра
+        double availableWidth = previewContainer.ActualWidth - 20;
+        double availableHeight = previewContainer.ActualHeight - 20;
+
+        if (availableWidth > 0 && availableHeight > 0)
+        {
+          double scaleX = availableWidth / pixelWidth;
+          double scaleY = availableHeight / pixelHeight;
+          double viewScale = Math.Min(scaleX, scaleY);
+
+          if (viewScale < 0.1) viewScale = 0.1;
+          if (viewScale > 5.0) viewScale = 5.0;
+
+          stickerBorder.Width = pixelWidth;
+          stickerBorder.Height = pixelHeight;
+          stickerBorder.LayoutTransform = new ScaleTransform(viewScale*.9, viewScale*.9);
+        }
+
+        System.Diagnostics.Debug.WriteLine($"Наклейка: {widthMM}x{heightMM} мм, размер в пикселях: {pixelWidth}x{pixelHeight}");
       }
       catch (Exception ex)
       {
-        System.Diagnostics.Debug.WriteLine($"Ошибка обновления предпросмотра: {ex.Message}");
+        System.Diagnostics.Debug.WriteLine($"Ошибка рендеринга: {ex.Message}");
       }
     }
 
     private void Txt_TextChanged(object sender, TextChangedEventArgs e)
     {
-      UpdatePreview();
+      RenderSticker();
     }
 
     private void CmbFont_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-      UpdatePreview();
+      RenderSticker();
     }
 
     private void BtnOk_Click(object sender, RoutedEventArgs e)
@@ -142,6 +187,11 @@ namespace Labelman8
     {
       DialogResult = false;
       Close();
+    }
+
+    private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+      RenderSticker();
     }
   }
 }
