@@ -76,24 +76,16 @@
         BorderThickness="1" 
         Background="WhiteSmoke"
         Margin="0,0,0,10"
-        Padding="10"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        MinHeight="100"
+        MinHeight="150"
         x:Name="previewContainer">
 
-			<!-- Контейнер для наклейки -->
-			<Border x:Name="stickerBorder"
-            BorderBrush="Black" 
-            BorderThickness="1" 
-            Background="White"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-
-			<Image x:Name="stickerImage" 
-				Stretch="None"
-				RenderOptions.BitmapScalingMode="HighQuality"/>
-			</Border>
+			<Canvas x:Name="stickerCanvas"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					Background="White"
+					ClipToBounds="True">
+				<!-- Содержимое будет добавляться в коде -->
+			</Canvas>
 		</Border>
 
 		<!-- Кнопки -->

@@ -1,4 +1,5 @@
-﻿using Labelman8.Models;
+﻿using Labelman8.Helpers;
+using Labelman8.Models;
 using Labelman8.Modules;
 using Microsoft.Win32;
 using System;
@@ -23,8 +24,8 @@ namespace Labelman8
     {
       InitializeComponent();
 
-			// Привязываем DataGrid к коллекции
-			dgData.ItemsSource = specItems;
+      // Привязываем DataGrid к коллекции
+      dgData.ItemsSource = specItems;
 
 			// Подписываемся на событие для настройки заголовков
 			dgData.AutoGeneratingColumn += DgData_AutoGeneratingColumn;

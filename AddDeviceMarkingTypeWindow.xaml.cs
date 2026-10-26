@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Labelman8.Models;
+using Labelman8.Helpers;
 
 namespace Labelman8
 {
@@ -24,13 +25,13 @@ namespace Labelman8
     {
       try
       {
-        if (stickerImage == null || stickerBorder == null || previewContainer == null) return;
+        if (stickerCanvas == null || previewContainer == null) return;
 
-        // --- 1. Получаем параметры ---
+        stickerCanvas.Children.Clear();
+
         if (!double.TryParse(txtWidth.Text, out double widthMM) || widthMM <= 0 ||
             !double.TryParse(txtHeight.Text, out double heightMM) || heightMM <= 0)
         {
-          stickerImage.Source = null;
           return;
         }
 
@@ -38,87 +39,74 @@ namespace Labelman8
         if (cmbFont.SelectedItem != null)
         {
           if (cmbFont.SelectedItem is ComboBoxItem item && item.Content != null)
-          {
             fontName = item.Content.ToString();
-          }
           else
-          {
             fontName = cmbFont.SelectedItem.ToString();
-          }
         }
 
         double fontSize = 36;
         if (double.TryParse(txtFontSize.Text, out double parsedSize) && parsedSize > 0)
-        {
           fontSize = parsedSize;
-        }
 
-        string text = string.IsNullOrWhiteSpace(txtPreviewText.Text)
-            ? "Образец текста"
-            : txtPreviewText.Text;
+        string text = string.IsNullOrWhiteSpace(txtPreviewText.Text) ? "Текст" : txtPreviewText.Text;
 
-        // --- 2. Создаём изображение наклейки в высоком разрешении ---
-        const double dpi = 96;
-        const double scale = 20.0; // 1 мм = 20 пикселей
-        int pixelWidth = (int)(widthMM * scale);
-        int pixelHeight = (int)(heightMM * scale);
+        // Переводим мм в DIP
+        double widthDip = DpiHelper.MmToDip(widthMM);
+        double heightDip = DpiHelper.MmToDip(heightMM);
 
-        var visual = new DrawingVisual();
-        using (var dc = visual.RenderOpen())
+        if (widthDip <= 0 || heightDip <= 0) return;
+
+        // Задаём размер Canvas в DIP
+        stickerCanvas.Width = widthDip;
+        stickerCanvas.Height = heightDip;
+
+        // Рамка
+        var border = new System.Windows.Shapes.Rectangle
         {
-          // Белый фон
-          dc.DrawRectangle(Brushes.White, null, new Rect(0, 0, pixelWidth, pixelHeight));
+          Width = widthDip,
+          Height = heightDip,
+          Stroke = Brushes.Black,
+          StrokeThickness = 1,
+          Fill = Brushes.White
+        };
+        Canvas.SetLeft(border, 0);
+        Canvas.SetTop(border, 0);
+        stickerCanvas.Children.Add(border);
 
-          // Рамка
-          var pen = new Pen(Brushes.Black, 1);
-          dc.DrawRectangle(null, pen, new Rect(0, 0, pixelWidth, pixelHeight));
+        // Текст
+        var textBlock = new TextBlock
+        {
+          Text = text,
+          FontFamily = new FontFamily(fontName),
+          FontSize = fontSize * (96.0 / 72.0), // pt → DIP
+          Foreground = Brushes.Black,
+          TextWrapping = TextWrapping.NoWrap,
+          TextAlignment = TextAlignment.Center
+        };
 
-          // Текст
-          if (!string.IsNullOrEmpty(text))
-          {
-            var font = new Typeface(new FontFamily(fontName), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal);
-            var formattedText = new FormattedText(
-                text,
-                System.Globalization.CultureInfo.InvariantCulture,
-                FlowDirection.LeftToRight,
-                font,
-                fontSize * scale,
-                Brushes.Black,
-                dpi);
+        // Измеряем текст
+        textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        var textSize = textBlock.DesiredSize;
 
-            double x = (pixelWidth - formattedText.Width) / 2;
-            double y = (pixelHeight - formattedText.Height) / 2;
-            dc.DrawText(formattedText, new Point(x, y));
-          }
-        }
+        // Центрируем
+        double textX = (widthDip - textSize.Width) / 2;
+        double textY = (heightDip - textSize.Height) / 2;
+        Canvas.SetLeft(textBlock, textX);
+        Canvas.SetTop(textBlock, textY);
+        stickerCanvas.Children.Add(textBlock);
 
-        var bitmap = new RenderTargetBitmap(pixelWidth, pixelHeight, dpi, dpi, PixelFormats.Pbgra32);
-        bitmap.Render(visual);
-
-        // --- 3. Отображаем с высоким качеством ---
-        stickerImage.Source = bitmap;
-        stickerImage.Width = pixelWidth;
-        stickerImage.Height = pixelHeight;
-
-        // Масштабируем для предпросмотра
+        // Масштабируем Canvas, чтобы он поместился в previewContainer
         double availableWidth = previewContainer.ActualWidth - 20;
         double availableHeight = previewContainer.ActualHeight - 20;
 
         if (availableWidth > 0 && availableHeight > 0)
         {
-          double scaleX = availableWidth / pixelWidth;
-          double scaleY = availableHeight / pixelHeight;
-          double viewScale = Math.Min(scaleX, scaleY);
+          double scaleX = availableWidth / widthDip;
+          double scaleY = availableHeight / heightDip;
+          double scale = Math.Min(scaleX, scaleY);
 
-          if (viewScale < 0.1) viewScale = 0.1;
-          if (viewScale > 5.0) viewScale = 5.0;
-
-          stickerBorder.Width = pixelWidth;
-          stickerBorder.Height = pixelHeight;
-          stickerBorder.LayoutTransform = new ScaleTransform(viewScale*.9, viewScale*.9);
+          stickerCanvas.LayoutTransform = new ScaleTransform(scale, scale);
         }
-
-        System.Diagnostics.Debug.WriteLine($"Наклейка: {widthMM}x{heightMM} мм, размер в пикселях: {pixelWidth}x{pixelHeight}");
       }
       catch (Exception ex)
       {
