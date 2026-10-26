@@ -250,6 +250,10 @@ namespace Labelman8
       currentPage = Math.Max(0, Math.Min(index, pages.Count - 1));
       pageImage.Source = pages[currentPage];
       txtPageInfo.Text = $"Страница {currentPage + 1} из {pages.Count}";
+
+      // Управление активностью кнопок
+      btnPrev.IsEnabled = currentPage > 0;
+      btnNext.IsEnabled = currentPage < pages.Count - 1;
     }
 
     private void BtnPrev_Click(object sender, RoutedEventArgs e)
