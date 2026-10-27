@@ -15,7 +15,6 @@ namespace Labelman8
     public MarkingType Result { get; private set; }
 
     // Флаг: true — редактирование, false — добавление
-    private bool isEditMode = false;
 
     public AddDeviceMarkingTypeWindow()
     {
@@ -29,7 +28,6 @@ namespace Labelman8
     /// </summary>
     public AddDeviceMarkingTypeWindow(MarkingType existingType) : this()
     {
-      isEditMode = true;
       this.Title = "Изменить вид маркировки для аппаратов";
 
       // Заполняем поля

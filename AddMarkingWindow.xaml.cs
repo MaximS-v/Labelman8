@@ -230,7 +230,7 @@ namespace Labelman8
           {
             terminalMarkingTypes[index] = window.Result;
           }
-          // SaveTerminalMarkingTypes(); // раскомментировать, когда метод будет готов
+          SaveTerminalMarkingTypes();
           UpdateButtonsState();
         }
         return;

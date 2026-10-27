@@ -13,10 +13,7 @@ namespace Labelman8
     protected override string WindowRegistryName => "AddTerminalMarkingTypeWindow";
 
     public TerminalMarkingType Result { get; private set; }
-
-    // Флаг: true — редактирование, false — добавление
-    private bool isEditMode = false;
-
+        
     public AddTerminalMarkingTypeWindow()
     {
       InitializeComponent();
@@ -29,7 +26,6 @@ namespace Labelman8
     /// </summary>
     public AddTerminalMarkingTypeWindow(TerminalMarkingType existingType) : this()
     {
-      isEditMode = true;
       this.Title = "Изменить вид маркировки для клемм";
 
       // Заполняем поля
