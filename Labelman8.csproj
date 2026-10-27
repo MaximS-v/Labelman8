@@ -126,6 +126,9 @@
     <Compile Include="AddMarkingWindow.xaml.cs">
       <DependentUpon>AddMarkingWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddTerminalMarkingTypeWindow.xaml.cs">
+      <DependentUpon>AddTerminalMarkingTypeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BoolToPlusMinusConverter.cs" />
     <Compile Include="Helpers\DpiHelper.cs" />
     <Compile Include="Models\TerminalMarking.cs" />
@@ -137,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddMarkingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddTerminalMarkingTypeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -52,6 +52,41 @@ namespace Labelman8
       }
     }
 
+    private void SaveTerminalMarkingTypes()
+    {
+      try
+      {
+        string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "terminal_marking_types.json");
+        System.Diagnostics.Debug.WriteLine($"Сохранение в: {filePath}");
+
+        var storage = new TerminalMarkingTypesStorage
+        {
+          TerminalMarkingTypes = terminalMarkingTypes.ToList()
+        };
+
+        var serializer = new JavaScriptSerializer();
+        string json = serializer.Serialize(storage);
+
+        File.WriteAllText(filePath, json);
+
+        if (File.Exists(filePath))
+        {
+          System.Diagnostics.Debug.WriteLine($"Файл создан, размер: {new FileInfo(filePath).Length} байт");
+        }
+        else
+        {
+          System.Diagnostics.Debug.WriteLine("Файл НЕ создан!");
+        }
+
+        System.Diagnostics.Debug.WriteLine($"Сохранено {terminalMarkingTypes.Count} типов маркировки для клемм");
+      }
+      catch (Exception ex)
+      {
+        System.Diagnostics.Debug.WriteLine($"Ошибка сохранения: {ex.Message}");
+        MessageBox.Show($"Ошибка сохранения данных: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+      }
+    }
+
     public AddMarkingWindow()
 		{
 			InitializeComponent();
@@ -141,24 +176,74 @@ namespace Labelman8
     }
 
     private void BtnAddTerminalType_Click(object sender, RoutedEventArgs e)
-		{
-			// TODO: открыть окно добавления вида маркировки для клемм
-			MessageBox.Show("Добавить вид маркировки для клемм (заглушка)");
-		}
+    {
+      var window = new AddTerminalMarkingTypeWindow();
+      window.Owner = this;
 
-		private void BtnEditType_Click(object sender, RoutedEventArgs e)
+      if (window.ShowDialog() == true && window.Result != null)
+      {
+        terminalMarkingTypes.Add(window.Result);
+        SaveTerminalMarkingTypes(); // пока можно закомментировать, если метода ещё нет
+        System.Diagnostics.Debug.WriteLine($"Добавлен вид маркировки для клемм: {window.Result.Name}");
+      }
+    }
+
+    private void BtnEditType_Click(object sender, RoutedEventArgs e)
 		{
 			// TODO: открыть окно изменения вида маркировки
 			MessageBox.Show("Изменить вид маркировки (заглушка)");
 		}
 
-		private void BtnDeleteType_Click(object sender, RoutedEventArgs e)
-		{
-			// TODO: удаление вида маркировки
-			MessageBox.Show("Удалить вид маркировки (заглушка)");
-		}
+    private void BtnDeleteType_Click(object sender, RoutedEventArgs e)
+    {
+      // Проверяем, что выбрано в таблице "Аппараты"
+      if (dgMarkingTypes.SelectedItem is MarkingType deviceType)
+      {
+        if (deviceType.IsSystem)
+        {
+          MessageBox.Show("Системный вид маркировки нельзя удалить.", "Предупреждение",
+                          MessageBoxButton.OK, MessageBoxImage.Warning);
+          return;
+        }
 
-		private void UpdateButtonsState()
+        var result = MessageBox.Show(
+            $"Удалить вид маркировки \"{deviceType.Name}\"?",
+            "Подтверждение удаления",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes)
+        {
+          markingTypes.Remove(deviceType);
+          SaveMarkingTypes();
+          UpdateButtonsState();
+        }
+        return;
+      }
+
+      // Проверяем, что выбрано в таблице "Клеммы"
+      if (dgTerminalMarkingTypes.SelectedItem is TerminalMarkingType terminalType)
+      {
+        var result = MessageBox.Show(
+            $"Удалить вид маркировки \"{terminalType.Name}\"?",
+            "Подтверждение удаления",
+            MessageBoxButton.YesNo,
+            MessageBoxImage.Question);
+
+        if (result == MessageBoxResult.Yes)
+        {
+          terminalMarkingTypes.Remove(terminalType);
+          SaveTerminalMarkingTypes(); // если есть сохранение клемм
+          UpdateButtonsState();
+        }
+        return;
+      }
+
+      MessageBox.Show("Выберите вид маркировки для удаления.", "Информация",
+                      MessageBoxButton.OK, MessageBoxImage.Information);
+    }
+
+    private void UpdateButtonsState()
 		{
 			// Проверяем, выбран ли элемент в таблице "Аппараты" и не является ли он системным
 			bool isDeviceSelected = dgMarkingTypes.SelectedItem is MarkingType deviceType && !deviceType.IsSystem;
