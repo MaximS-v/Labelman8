@@ -217,11 +217,22 @@ namespace Labelman8
         return;
       }
 
-      // Редактирование вида для клемм (позже)
-      if (dgTerminalMarkingTypes.SelectedItem is TerminalMarkingType)
+      // Редактирование вида для клемм
+      if (dgTerminalMarkingTypes.SelectedItem is TerminalMarkingType terminalType)
       {
-        MessageBox.Show("Редактирование вида маркировки для клемм пока не реализовано.", "Информация",
-                        MessageBoxButton.OK, MessageBoxImage.Information);
+        var window = new AddTerminalMarkingTypeWindow(terminalType);
+        window.Owner = this;
+
+        if (window.ShowDialog() == true && window.Result != null)
+        {
+          int index = terminalMarkingTypes.IndexOf(terminalType);
+          if (index >= 0)
+          {
+            terminalMarkingTypes[index] = window.Result;
+          }
+          // SaveTerminalMarkingTypes(); // раскомментировать, когда метод будет готов
+          UpdateButtonsState();
+        }
         return;
       }
 

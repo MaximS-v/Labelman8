@@ -14,11 +14,28 @@ namespace Labelman8
 
     public TerminalMarkingType Result { get; private set; }
 
+    // Флаг: true — редактирование, false — добавление
+    private bool isEditMode = false;
+
     public AddTerminalMarkingTypeWindow()
     {
       InitializeComponent();
       this.Loaded += (s, e) => RenderPreview();
       this.SizeChanged += (s, e) => RenderPreview();
+    }
+
+    /// <summary>
+    /// Конструктор для редактирования существующего вида
+    /// </summary>
+    public AddTerminalMarkingTypeWindow(TerminalMarkingType existingType) : this()
+    {
+      isEditMode = true;
+      this.Title = "Изменить вид маркировки для клемм";
+
+      // Заполняем поля
+      txtName.Text = existingType.Name;
+      txtHeight.Text = existingType.HeightMM.ToString();
+      txtPitch.Text = existingType.PitchMM.ToString();
     }
 
     private void Txt_TextChanged(object sender, TextChangedEventArgs e)
