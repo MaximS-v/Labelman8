@@ -189,10 +189,45 @@ namespace Labelman8
     }
 
     private void BtnEditType_Click(object sender, RoutedEventArgs e)
-		{
-			// TODO: открыть окно изменения вида маркировки
-			MessageBox.Show("Изменить вид маркировки (заглушка)");
-		}
+    {
+      // Редактирование вида для аппаратов
+      if (dgMarkingTypes.SelectedItem is MarkingType deviceType)
+      {
+        if (deviceType.IsSystem)
+        {
+          MessageBox.Show("Системный вид маркировки нельзя изменить.", "Предупреждение",
+                          MessageBoxButton.OK, MessageBoxImage.Warning);
+          return;
+        }
+
+        var window = new AddDeviceMarkingTypeWindow(deviceType);
+        window.Owner = this;
+
+        if (window.ShowDialog() == true && window.Result != null)
+        {
+          // Заменяем старый вид на новый
+          int index = markingTypes.IndexOf(deviceType);
+          if (index >= 0)
+          {
+            markingTypes[index] = window.Result;
+          }
+          SaveMarkingTypes();
+          UpdateButtonsState();
+        }
+        return;
+      }
+
+      // Редактирование вида для клемм (позже)
+      if (dgTerminalMarkingTypes.SelectedItem is TerminalMarkingType)
+      {
+        MessageBox.Show("Редактирование вида маркировки для клемм пока не реализовано.", "Информация",
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+        return;
+      }
+
+      MessageBox.Show("Выберите вид маркировки для редактирования.", "Информация",
+                      MessageBoxButton.OK, MessageBoxImage.Information);
+    }
 
     private void BtnDeleteType_Click(object sender, RoutedEventArgs e)
     {

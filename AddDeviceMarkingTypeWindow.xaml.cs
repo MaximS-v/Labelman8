@@ -14,11 +14,39 @@ namespace Labelman8
 
     public MarkingType Result { get; private set; }
 
+    // Флаг: true — редактирование, false — добавление
+    private bool isEditMode = false;
+
     public AddDeviceMarkingTypeWindow()
     {
       InitializeComponent();
       this.Loaded += (s, e) => RenderSticker();
       this.SizeChanged += (s, e) => RenderSticker();
+    }
+
+    /// <summary>
+    /// Конструктор для редактирования существующего вида
+    /// </summary>
+    public AddDeviceMarkingTypeWindow(MarkingType existingType) : this()
+    {
+      isEditMode = true;
+      this.Title = "Изменить вид маркировки для аппаратов";
+
+      // Заполняем поля
+      txtName.Text = existingType.Name;
+      txtWidth.Text = existingType.WidthMM.ToString();
+      txtHeight.Text = existingType.HeightMM.ToString();
+      txtFontSize.Text = existingType.DefaultFontSizePt.ToString();
+
+      // Устанавливаем шрифт в ComboBox
+      foreach (ComboBoxItem item in cmbFont.Items)
+      {
+        if (item.Content?.ToString() == existingType.FontName)
+        {
+          cmbFont.SelectedItem = item;
+          break;
+        }
+      }
     }
 
     private void RenderSticker()
